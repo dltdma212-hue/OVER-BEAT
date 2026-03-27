@@ -36,6 +36,12 @@ body {
     z-index: 10;
 }
 
+#buttonDiv {
+    border-radius: 0 !important;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
 .login-btns {
     display: flex !important;
     flex-direction: row !important;
