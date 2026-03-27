@@ -52,10 +52,12 @@ function Initialize() {
                 google.accounts.id.renderButton(
                     googleBtn,
                     {
-                        type: "icon",
+                        type: "standard",
                         theme: "filled_black",
                         size: "large",
-                        shape: "circle"
+                        text: "signin_with",
+                        shape: "pill",
+                        width: "400"
                     }
                 );
             }
