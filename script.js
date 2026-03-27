@@ -47,18 +47,18 @@ function Initialize() {
             });
 
             // 버튼 그리기
-            const googleBtn = document.getElementById("btn-login-google");
+            const googleBtn = document.getElementById("buttonDiv");
             if (googleBtn) {
-                googleBtn.innerHTML = ''; // Clear any previous instance
+                googleBtn.innerHTML = '';
                 google.accounts.id.renderButton(
                     googleBtn,
-                    {
-                        type: "standard",
-                        theme: "filled_black",
-                        size: "large",
-                        text: "signin_with",
-                        shape: "pill",
-                        width: 400
+                    { 
+                        theme: "filled_black",  // 사이버펑크에 어울리는 블랙 테마 ㅋ
+                        size: "large",         // 일단 가장 큰 사이즈로 설정!
+                        width: 400,            // 가로 길이를 숫자로 지정 (예: 400px)
+                        shape: "rectangular",  // 직사각형 모양
+                        text: "signin_with",   // 버튼 문구
+                        logo_alignment: "left" 
                     }
                 );
             }
