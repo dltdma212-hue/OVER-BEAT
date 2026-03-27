@@ -1349,12 +1349,12 @@ input:focus {
     position: absolute;
     font-size: 14px;
     letter-spacing: 1px;
-    animation: scroll-ltr 12s linear infinite;
+    animation: scroll-rtl 20s linear infinite;
 }
 
-@keyframes scroll-ltr {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100vw); }
+@keyframes scroll-rtl {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
 }
 
 #charge-interface {
