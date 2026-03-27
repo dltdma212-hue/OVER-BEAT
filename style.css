@@ -37,9 +37,27 @@ body {
 }
 
 #buttonDiv {
-    border-radius: 0 !important;
-    overflow: hidden;
-    margin-bottom: 10px;
+    /* 둥근 타원 모양을 없애는 핵심 코드! ㅋ */
+    border-radius: 4px !important; 
+    overflow: visible !important; 
+    
+    /* 크기 설정 */
+    width: 100%;
+    max-width: 400px; /* 원하는 가로 길이 ㅋ */
+    height: auto;
+    
+    /* 중앙 정렬 */
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    
+    /* 네온 효과 추가 (네온 블루 ㅋ) */
+    box-shadow: 0 0 15px #00F3FF; 
+}
+
+/* 구글이 강제로 넣는 스타일 무시하기 ㅋ */
+#buttonDiv iframe {
+    border-radius: 4px !important;
 }
 
 .login-btns {
