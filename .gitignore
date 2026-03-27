@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+리듬 게임 홍보 영상/
+*.mov
+*.mp4
+*.zip
+*.rar
