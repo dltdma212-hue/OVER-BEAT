@@ -49,6 +49,7 @@ function Initialize() {
             // 버튼 그리기
             const googleBtn = document.getElementById("btn-login-google");
             if (googleBtn) {
+                googleBtn.innerHTML = ''; // Clear any previous instance
                 google.accounts.id.renderButton(
                     googleBtn,
                     {
@@ -57,7 +58,7 @@ function Initialize() {
                         size: "large",
                         text: "signin_with",
                         shape: "pill",
-                        width: "400"
+                        width: 400
                     }
                 );
             }
