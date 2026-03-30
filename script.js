@@ -32,8 +32,8 @@ function Initialize() {
     // Back4App 연결 설정 (Parse)
     if (typeof Parse !== 'undefined') {
         Parse.initialize(
-            "UjvHCehPEYCjpO1N2hhO8EH6uYWlhxNPk96m6ZNI",
-            "L5UlveEiDRMwjMT5rTEMsOaXYMwwCb2CKwsoNwbE"
+            "UjvHCehPEYCjpO1N2hhO8EH6uYWIhxNPk96m6ZNI",
+            "yOrPls9GO7sANRPMGWYxYqu3cpU5tM2Znof0l9LQ"
         );
         Parse.serverURL = 'https://parseapi.back4app.com/';
     }
