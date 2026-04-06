@@ -7,13 +7,6 @@ window.recordingStreamActive = null;
 const GAS_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbxq1MDa8nCO2-JWh7DJIdQsGDGjQw8JgA4SQlJ8bzqvIBkmCXXj86vgV5C5oG9p9JMFsg/exec";
 
 window.startAutoRecording = function() {
-    // 30일 한정 이벤트 (2026년 4월 30일까지 동작)
-    const EVENT_END_DATE = new Date("2026-04-30T23:59:59+09:00");
-    if (new Date() > EVENT_END_DATE) {
-        console.log("자동 녹화 이벤트 기간이 종료되었습니다.");
-        return;
-    }
-
     if (!window.recordingStreamActive) return;
     
     window.recordingChunks = [];

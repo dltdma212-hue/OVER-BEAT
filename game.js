@@ -19,6 +19,7 @@ const JUDGE_PX = { COOL: 40, GOOD: 80, MISS: 120 };
 
 // --- STATE ---
 let isRunning = false;
+let isDemoMode = false; // 데모 모드: 노트 100% 히트 + HP 무적
 let isAutoPlay = false;
 let lastTime = 0;
 const noteSpeed = 600;
@@ -234,10 +235,14 @@ const manager = new Manager();
 function addCombo() {
     combo++;
     if (comboEl) {
-        comboEl.innerText = combo + " COMBO";
+        comboEl.innerText = combo;
         comboEl.classList.remove('pulse');
         void comboEl.offsetWidth;
         comboEl.classList.add('pulse');
+        
+        // Bloom 효과 (최대 100px까지 제한)
+        const bloomSize = Math.min(100, 10 + (combo * 1.5));
+        document.documentElement.style.setProperty('--combo-bloom', `${bloomSize}px`);
     }
     manager.reactToCombo(combo);
 }
@@ -245,7 +250,10 @@ function addCombo() {
 function resetCombo() {
     if (combo > 5) manager.reactToMiss();
     combo = 0;
-    if (comboEl) comboEl.innerText = "";
+    if (comboEl) {
+        comboEl.innerText = "";
+        document.documentElement.style.setProperty('--combo-bloom', '10px');
+    }
 }
 
 function addScore(pts) {
@@ -257,6 +265,16 @@ function addScore(pts) {
 }
 
 function updateHP(amount) {
+    // 데모/오토플레이 모드에서는 HP 감소 무시 (HP 항상 100 유지)
+    if (isDemoMode && amount < 0) {
+        hp = 100;
+        if (hpBarFill) {
+            hpBarFill.style.width = '100%';
+            hpBarFill.classList.remove('critical');
+        }
+        return;
+    }
+
     hp = Math.min(100, Math.max(0, hp + amount));
     if (hpBarFill) {
         hpBarFill.style.width = hp + '%';
@@ -331,7 +349,7 @@ function createExplosion(laneIdx, type) {
     const rect = lane.getBoundingClientRect();
     const trackRect = trackContainer.getBoundingClientRect();
 
-    // Create Explosion Element
+    // Create Explosion Element (Base bloom)
     const explosion = document.createElement('div');
     explosion.className = `hit-explosion hit-${type.toLowerCase()}`;
 
@@ -343,6 +361,28 @@ function createExplosion(laneIdx, type) {
     explosion.style.top = `${centerY}px`;
 
     trackContainer.appendChild(explosion);
+
+    // ── 파티클(파편) 폭발 효과 ──
+    const numParticles = type === 'COOL' ? 12 : (type === 'GOOD' ? 6 : 0);
+    for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = `hit-particle particle-${type.toLowerCase()}`;
+        
+        // Random angle and distance
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 30 + Math.random() * 80; // 30 ~ 110px
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        particle.style.left = `${centerX}px`;
+        particle.style.top = `${centerY}px`;
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
+        
+        trackContainer.appendChild(particle);
+        // 애니메이션 끝나면 DOM에서 제거 (0.4s)
+        setTimeout(() => particle.remove(), 400); 
+    }
 
     // Lane Flash Effect
     lane.classList.add('hit-flash');
@@ -684,11 +724,13 @@ function spawnNote(laneIdx) {
 
     noteLayer.appendChild(noteEl);
 
-    // Human Error Logic (for AutoPlay)
+    // 데모 모드에서는 100% COOL, 일반 오토플레이도 MISS 없음
     const rand = Math.random();
     let fate = 'COOL';
-    if (rand > 0.85) fate = 'GOOD';
-    if (rand > 0.95) fate = 'MISS';
+    if (!isDemoMode) {
+        if (rand > 0.85) fate = 'GOOD';
+        if (rand > 0.95) fate = 'MISS';
+    }
 
     notes.push({
         el: noteEl,
@@ -755,11 +797,21 @@ function gameLoop(timestamp) {
 
         // Miss Logic
         if (note.y > hitLineY + getJudgeWindow('MISS')) {
-            totalMisses++;
-            resetCombo();
-            showJudge('MISS');
-            updateHP(-10); // HP Loss on MISS
-            manager.pulseMiss();
+            // 데모 모드: 미스 노트도 자동으로 COOL 처리
+            if (isDemoMode) {
+                totalHits++;
+                addCombo();
+                addScore(300);
+                showJudge('COOL', note.lane);
+                createExplosion(note.lane, 'COOL');
+                manager.pulseHit();
+            } else {
+                totalMisses++;
+                resetCombo();
+                showJudge('MISS');
+                updateHP(-10);
+                manager.pulseMiss();
+            }
             note.active = false;
             note.el.remove();
             notes.splice(i, 1);
@@ -1095,3 +1147,24 @@ window.onReviveCountdownStarted = function (seconds, onDone) {
 
 // Export initialization for script.js and inline scripts
 window.initGame = initGame;
+
+// ── Demo Mode 전역 토글 ──────────────────────────────────────
+window.startDemoMode = function() {
+    isDemoMode = true;
+    isAutoPlay = true;
+    console.log('🎮 DEMO MODE ON - AutoPlay + Invincible HP');
+};
+window.stopDemoMode = function() {
+    isDemoMode = false;
+    isAutoPlay = false;
+    console.log('🎮 DEMO MODE OFF');
+};
+// 콘솔에서 window.isAutoPlay 로도 접근 가능하게
+Object.defineProperty(window, 'isAutoPlay', {
+    get: () => isAutoPlay,
+    set: (v) => { isAutoPlay = v; }
+});
+Object.defineProperty(window, 'isDemoMode', {
+    get: () => isDemoMode,
+    set: (v) => { isDemoMode = v; isAutoPlay = v; }
+});

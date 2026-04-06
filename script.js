@@ -7,7 +7,7 @@ let sysMsg, inpId, inpPw, shopOverlay, modalOverlay, modalContent, modalBtnOk, m
 // State
 let inventoryData = {};
 let equippedItemIds = new Set();
-let maxUnlockedLevel = 1;
+let maxUnlockedLevel = 1; // 1레벨만 개방, 클리어 시 다음 레벨 순차 시작
 
 // 1. SYSTEM INITIALIZATION
 function Initialize() {
@@ -187,6 +187,45 @@ function Initialize() {
 
     if (volMinus) volMinus.onclick = () => updateVolume(currentVolume - 0.05);
     if (volPlus) volPlus.onclick = () => updateVolume(currentVolume + 0.05);
+
+
+    // ── Note Skin (색상 테마) 선택 ────────────────────────────────
+    const SKIN_DEFS = {
+        'neon-blue':     { label: 'NEON BLUE',     glow: '#00f3ff' },
+        'classic':       { label: 'CLASSIC',        glow: '#b06aff' },
+        'high-contrast': { label: 'HIGH CONTRAST',  glow: '#ffff00' }
+    };
+
+    let currentSkin = localStorage.getItem('kodari_note_skin') || 'neon-blue';
+
+    function applyNoteSkin(skinId) {
+        currentSkin = skinId;
+        document.body.dataset.theme = skinId;
+        localStorage.setItem('kodari_note_skin', skinId);
+
+        // 버튼 active 링 표시
+        document.querySelectorAll('.skin-btn').forEach(btn => {
+            const isActive = btn.dataset.skin === skinId;
+            const def = SKIN_DEFS[btn.dataset.skin] || {};
+            btn.style.transform   = isActive ? 'scale(1.25)' : 'scale(1)';
+            btn.style.borderWidth = isActive ? '3px' : '2px';
+            btn.style.boxShadow   = isActive
+                ? `0 0 10px ${def.glow}, 0 0 20px ${def.glow}66`
+                : `0 0 6px ${def.glow}`;
+        });
+    }
+
+    // 초기 적용
+    applyNoteSkin(currentSkin);
+
+    // 버튼 이벤트
+    document.querySelectorAll('.skin-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            applyNoteSkin(btn.dataset.skin);
+        });
+    });
+    // ──────────────────────────────────────────────────────────────
 
     // Initial Volume Sync
     setTimeout(() => {

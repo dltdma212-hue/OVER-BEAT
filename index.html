@@ -29,7 +29,7 @@
     </script>
 </head>
 
-<body>
+<body data-theme="neon-blue">
     <!-- 1. LOGIN SCREEN -->
     <div id="login-container" class="container">
         <div class="login-box shadow-glow">
@@ -69,6 +69,23 @@
                             <div class="vol-gauge-line"></div>
                         </div>
                         <button id="btn-vol-plus" class="vol-step-btn">+</button>
+
+                        <span style="font-size:10px;color:#888;letter-spacing:1px;white-space:nowrap;">SKIN</span>
+                        <!-- 테마 1: Neon Blue -->
+                        <button class="skin-btn" data-skin="neon-blue" title="Neon Blue (기본)"
+                            style="width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid #00f3ff;
+                                   background:linear-gradient(135deg,#fff 33%,#00d4ff 66%,#ffcc00 100%);
+                                   box-shadow:0 0 6px #00f3ff;padding:0;transition:all 0.2s;"></button>
+                        <!-- 테마 2: Classic -->
+                        <button class="skin-btn" data-skin="classic" title="Classic (DJ MAX)"
+                            style="width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid #b06aff;
+                                   background:linear-gradient(135deg,#f5e6c8 33%,#b06aff 66%,#ff8c00 100%);
+                                   box-shadow:0 0 6px #b06aff;padding:0;transition:all 0.2s;"></button>
+                        <!-- 테마 3: High Contrast -->
+                        <button class="skin-btn" data-skin="high-contrast" title="High Contrast (색맹/고수)"
+                            style="width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid #ffff00;
+                                   background:linear-gradient(135deg,#ffff00 33%,#00ff88 66%,#ff00cc 100%);
+                                   box-shadow:0 0 6px #ffff00;padding:0;transition:all 0.2s;"></button>
                     </div>
 
                     <button id="btn-settings-toggle" title="System Settings">
@@ -81,9 +98,7 @@
         <main class="lobby-content">
             <!-- Left: Stage Selection -->
             <section class="level-select-panel lobby-panel shadow-glow">
-                <h2 class="panel-title"
-                    style="font-size: 24px; color: #fff; margin-bottom: 30px; border-left: none; padding-left: 0;">
-                    MISSION CONTROL</h2>
+                <h2 class="panel-title" style="font-size: 24px; color: #fff; margin-bottom: 20px; border-left: none; padding-left: 0;">MISSION CONTROL</h2>
                 <div id="level-list" class="level-list">
                     <!-- Levels injected here -->
                 </div>
@@ -223,16 +238,23 @@
                 <div id="note-layer"></div>
                 <div id="judgment-line"></div>
 
+                <!-- [FIXED] HP 진행 바 - 트랙 맨 위에 얇게 배치 -->
+                <div id="hp-progress-bar-wrap" style="
+                    position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+                    background: rgba(255,255,255,0.07); z-index: 25; pointer-events: none;
+                ">
+                    <div id="hp-bar-fill" style="
+                        width: 100%; height: 100%;
+                        background: linear-gradient(90deg, #ff0055 0%, #00f3ff 100%);
+                        box-shadow: 0 0 6px #00f3ff;
+                        transition: width 0.2s ease-out;
+                    "></div>
+                </div>
+
                 <div id="hud-center">
                     <div id="score-display">000,000</div>
-                    <div id="combo-display">0</div>
+                    <div id="combo-display"></div>
                     <div id="judgment-display">READY</div>
-                    <div id="hp-container">
-                        <div class="hp-label">SYSTEM STABILITY</div>
-                        <div id="hp-bar-bg">
-                            <div id="hp-bar-fill"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

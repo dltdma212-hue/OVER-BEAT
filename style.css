@@ -4,6 +4,79 @@
     --secondary-color: #ff0055;
     --text-color: #e0e0e0;
     --panel-bg: rgba(20, 20, 20, 0.9);
+
+    /* ── NOTE COLOR THEME VARIABLES ── */
+    --note-white:         #ffffff;
+    --note-white-glow1:   rgba(255,255,255,0.9);
+    --note-white-glow2:   rgba(255,255,255,0.6);
+    --note-white-glow3:   rgba(200,240,255,0.35);
+    --note-white-outline: rgba(255,255,255,0.7);
+
+    --note-blue:          hsl(185, 75%, 55%);
+    --note-blue-glow1:    hsla(185, 75%, 55%, 0.8);
+    --note-blue-glow2:    hsla(185, 75%, 55%, 0.5);
+
+    --note-gold:          #ffcc00;
+    --note-gold-glow:     rgba(255,204,0,0.5);
+
+    /* receptor & hit 색상 */
+    --receptor-hit-color: var(--primary-color);
+    --hit-explosion-cool: rgba(0, 243, 255, 0.9);
+    --hit-explosion-cool2: rgba(0, 243, 255, 0);
+    --hit-explosion-cool-shadow: #00f3ff;
+}
+
+/* ══════════════════════════════════════════
+   THEME 1 : NEON BLUE (기본, osu! 스타일)
+   ══════════════════════════════════════════ */
+[data-theme="neon-blue"] {
+    --note-white:         #ffffff;
+    --note-white-glow1:   rgba(255,255,255,0.9);
+    --note-white-glow2:   rgba(255,255,255,0.6);
+    --note-white-glow3:   rgba(180,240,255,0.35);
+    --note-white-outline: rgba(255,255,255,0.7);
+    --note-blue:          hsl(185, 75%, 55%);
+    --note-blue-glow1:    hsla(185, 75%, 55%, 0.8);
+    --note-blue-glow2:    hsla(185, 75%, 55%, 0.5);
+    --note-gold:          #ffcc00;
+    --note-gold-glow:     rgba(255,204,0,0.5);
+    --receptor-hit-color: #00f3ff;
+}
+
+/* ══════════════════════════════════════════
+   THEME 2 : CLASSIC (DJ MAX 스타일)
+   White=밝은 노란, Blue=보라, Gold=주황
+   ══════════════════════════════════════════ */
+[data-theme="classic"] {
+    --note-white:         #f5e6c8;       /* 따뜻한 아이보리 */
+    --note-white-glow1:   rgba(245,230,200,0.85);
+    --note-white-glow2:   rgba(245,230,200,0.50);
+    --note-white-glow3:   rgba(245,200,120,0.25);
+    --note-white-outline: rgba(255,240,180,0.6);
+    --note-blue:          #b06aff;       /* 부드러운 퍼플 */
+    --note-blue-glow1:    rgba(176,106,255,0.75);
+    --note-blue-glow2:    rgba(176,106,255,0.45);
+    --note-gold:          #ff8c00;       /* 다크 오렌지 */
+    --note-gold-glow:     rgba(255,140,0,0.55);
+    --receptor-hit-color: #b06aff;
+}
+
+/* ══════════════════════════════════════════
+   THEME 3 : HIGH CONTRAST (색맹/고수용)
+   White=밝은 노랑, Blue=형광 초록, Gold=마젠타
+   ══════════════════════════════════════════ */
+[data-theme="high-contrast"] {
+    --note-white:         #ffff00;       /* 순 노랑 */
+    --note-white-glow1:   rgba(255,255,0,0.95);
+    --note-white-glow2:   rgba(255,255,0,0.65);
+    --note-white-glow3:   rgba(255,255,0,0.35);
+    --note-white-outline: rgba(255,255,0,0.9);
+    --note-blue:          #00ff88;       /* 형광 민트 초록 */
+    --note-blue-glow1:    rgba(0,255,136,0.9);
+    --note-blue-glow2:    rgba(0,255,136,0.6);
+    --note-gold:          #ff00cc;       /* 마젠타 핑크 */
+    --note-gold-glow:     rgba(255,0,204,0.65);
+    --receptor-hit-color: #ffff00;
 }
 
 body {
@@ -355,8 +428,8 @@ input:focus {
 }
 
 .lane.active .receptor {
-    background: var(--primary-color);
-    box-shadow: 0 0 20px var(--primary-color);
+    background: var(--receptor-hit-color);
+    box-shadow: 0 0 20px var(--receptor-hit-color);
     border-color: #fff;
 }
 
@@ -402,8 +475,6 @@ input:focus {
 .note {
     position: absolute;
     width: 100%;
-    /* Relative to Lane width? No, absolute positioning needs calc */
-    /* We will set width/left in JS or use grid? JS is safer for notes */
     height: 12px;
     background: #fff;
     border-radius: 2px;
@@ -411,111 +482,105 @@ input:focus {
     z-index: 5;
 }
 
+/* [THEMED] 흰색 노트 - var(--note-white-*) 변수 사용 */
 .note.white {
-    background: #fff;
-    box-shadow: 0 0 5px #fff;
+    background: var(--note-white);
+    box-shadow:
+        0 0 6px 2px var(--note-white-glow1),
+        0 0 14px 4px var(--note-white-glow2),
+        0 0 24px 6px var(--note-white-glow3);
+    outline: 1px solid var(--note-white-outline);
 }
 
+/* [THEMED] 파란색 노트 */
 .note.blue {
-    background: #00f3ff;
-    box-shadow: 0 0 5px #00f3ff;
+    background: var(--note-blue);
+    box-shadow:
+        0 0 6px 2px var(--note-blue-glow1),
+        0 0 14px 4px var(--note-blue-glow2);
 }
 
+/* [THEMED] 골드 노트 */
 .note.gold {
-    background: #ffcc00;
-    box-shadow: 0 0 5px #ffcc00;
+    background: var(--note-gold);
+    box-shadow: 0 0 5px var(--note-gold), 0 0 12px var(--note-gold-glow);
 }
 
-/* UI Displays */
+/* [RESTORED] HUD - Score 상단 고정, Combo+Judge 중앙 대형 반투명 */
 #hud-center {
     position: absolute;
-    top: 30%;
-    /* Centered Over lanes */
-    left: 0;
-    width: 100%;
-    text-align: center;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     pointer-events: none;
     z-index: 20;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    gap: 4px;
 }
 
+/* Score - 중앙에서 콤보 위에 크고 투명하게 */
 #score-display {
-    font-size: 24px;
-    color: #fff;
-    letter-spacing: 2px;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    font-size: 40px;
+    font-weight: 700;
+    color: rgba(0, 243, 255, 0.2);
+    letter-spacing: 10px;
+    text-shadow: 0 0 var(--combo-bloom, 5px) rgba(0, 243, 255, 0.4);
+    white-space: nowrap;
+    font-family: 'Orbitron', 'Courier New', monospace; /* 네온 폰트에 어울리게 */
     margin-bottom: 20px;
+    transition: text-shadow 0.1s;
 }
 
+/* Combo - 중앙 대형 반투명 (DJ MAX 스타일) */
 #combo-display {
-    font-size: 60px;
-    font-weight: 800;
-    color: var(--primary-color);
-    text-shadow: 0 0 20px var(--primary-color);
-    height: 70px;
-    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* HP BAR IN HUD */
-#hp-container {
-    width: 200px;
-    margin-top: 10px;
-}
-
-.hp-label {
-    font-size: 10px;
-    color: var(--primary-color);
-    margin-bottom: 5px;
-    letter-spacing: 1px;
+    font-size: 110px;
+    font-weight: 900;
+    color: rgba(0, 243, 255, 0.15); /* 더 투명하게 */
+    text-shadow:
+        0 0 calc(var(--combo-bloom, 10px) * 0.5) rgba(0, 243, 255, 0.3),
+        0 0 var(--combo-bloom, 20px) rgba(0, 243, 255, 0.2);
+    letter-spacing: 8px;
+    line-height: 1;
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.1s;
+    white-space: nowrap;
     text-align: center;
+    font-family: 'Orbitron', sans-serif;
 }
 
-#hp-bar-bg {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #333;
-    padding: 2px;
-    box-sizing: border-box;
+/* COMBO label - Combo 숫자 위에 작게 */
+#combo-display::before {
+    content: 'C O M B O';
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 20px;
+    color: rgba(0, 243, 255, 0.25);
+    text-shadow: 0 0 calc(var(--combo-bloom, 5px) * 0.5) rgba(0, 243, 255, 0.4);
+    margin-bottom: -4px;
+    transition: text-shadow 0.1s;
 }
 
-#hp-bar-fill {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-    box-shadow: 0 0 10px var(--primary-color);
-    transition: width 0.2s ease-out;
+/* 콤보 이펙트 (Pulse) */
+#combo-display.combo-pulse {
+    transform: scale(1.04);
 }
 
-#hp-bar-fill.critical {
-    background: var(--secondary-color);
-    animation: pulse-red 0.5s infinite;
-}
-
-@keyframes pulse-red {
-    0% {
-        filter: brightness(1);
-    }
-
-    50% {
-        filter: brightness(1.5);
-    }
-
-    100% {
-        filter: brightness(1);
-    }
-}
-
+/* Judgment (COOL/GOOD/MISS) - 콤보 아래 매우 크게 */
 #judgment-display {
-    font-size: 32px;
-    font-weight: bold;
-    color: #fff;
-    height: 40px;
-    transition: transform 0.1s;
+    font-size: 80px;
+    font-weight: 900;
+    color: rgba(0, 243, 255, 0.2); /* 기본 투명 네온 블루 */
+    letter-spacing: 12px;
+    line-height: 1;
+    transition: transform 0.1s, opacity 0.1s;
     opacity: 0;
+    white-space: nowrap;
+    text-align: center;
+    margin-top: 20px;
+    text-shadow: 0 0 var(--combo-bloom, 20px) rgba(0, 243, 255, 0.3);
+    font-family: 'Orbitron', sans-serif;
 }
 
 .judge-cool {
@@ -1846,71 +1911,37 @@ input:focus {
 }
 
 /* NEW HAZARD: SHAKE VIEW */
+/* [FIXED] 기본 흔들림 강도를 50% 낮춤 */
 .shake-view {
-    animation: master-shake 0.1s infinite;
+    animation: master-shake 0.15s infinite;
 }
 
+/* SHAKE KEYFRAMES (Scaled to 70% intensity, 5px max) */
 @keyframes master-shake {
-    0% {
-        transform: translate(1px, 1px) rotate(0deg);
-    }
-
-    10% {
-        transform: translate(-1px, -2px) rotate(-1deg);
-    }
-
-    20% {
-        transform: translate(-3px, 0px) rotate(1deg);
-    }
-
-    30% {
-        transform: translate(3px, 2px) rotate(0deg);
-    }
-
-    40% {
-        transform: translate(1px, -1px) rotate(1deg);
-    }
-
-    50% {
-        transform: translate(-1px, 2px) rotate(-1deg);
-    }
-
-    60% {
-        transform: translate(-3px, 1px) rotate(0deg);
-    }
-
-    70% {
-        transform: translate(3px, 1px) rotate(-1deg);
-    }
-
-    80% {
-        transform: translate(-1px, -1px) rotate(1deg);
-    }
-
-    90% {
-        transform: translate(1px, 2px) rotate(0deg);
-    }
-
-    100% {
-        transform: translate(1px, -2px) rotate(-1deg);
-    }
+    0%   { transform: translate(1.5px, 1.5px) rotate(0deg); }
+    10%  { transform: translate(-1.5px, -3.0px) rotate(-0.1deg); }
+    20%  { transform: translate(-5.0px, 0px) rotate(0.1deg); }
+    30%  { transform: translate(5.0px, 3.0px) rotate(0deg); }
+    40%  { transform: translate(1.5px, -1.5px) rotate(0.1deg); }
+    50%  { transform: translate(-1.5px, 3.0px) rotate(-0.1deg); }
+    60%  { transform: translate(-5.0px, 1.5px) rotate(0deg); }
+    70%  { transform: translate(5.0px, 1.5px) rotate(-0.1deg); }
+    80%  { transform: translate(-1.5px, -1.5px) rotate(0.1deg); }
+    90%  { transform: translate(1.5px, 3.0px) rotate(0deg); }
+    100% { transform: translate(1.5px, -3.0px) rotate(-0.1deg); }
 }
+
+
 
 /* SHAKE REDUCTION (GUIDE ITEM) */
 .shake-view.stabilized {
-    animation: mild-shake 0.3s infinite;
+    animation: mild-shake 0.4s infinite;
 }
 
 @keyframes mild-shake {
-
     0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(1px, 1px);
-    }
+    100% { transform: translate(0, 0); }
+    50%  { transform: translate(0.5px, 0.5px); }
 }
 
 /* NEW HAZARD: DARKNESS VIEW */
@@ -2490,4 +2521,37 @@ input:focus {
     transform: translateY(-50%);
     border-radius: 2px;
     z-index: 1;
+}
+
+/* ── 파티클 폭발 효과 ── */
+.hit-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 15;
+    animation: particle-burst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1) forwards;
+}
+
+.particle-cool {
+    background: #fff;
+    box-shadow: 0 0 10px var(--note-blue-glow), 0 0 20px #fff;
+}
+
+.particle-good {
+    background: #fff;
+    box-shadow: 0 0 10px var(--note-gold-glow), 0 0 20px #fff;
+}
+
+@keyframes particle-burst {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+        opacity: 0;
+    }
 }
